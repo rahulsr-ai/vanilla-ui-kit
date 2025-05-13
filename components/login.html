@@ -1,0 +1,110 @@
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<section class="flex justify-center py-10 px-4 sm:px-0">
+  <div class="w-full max-w-md">
+    <div class="py-8 px-6 sm:px-10 bg-white rounded-2xl shadow-md border border-gray-200">
+      
+      <!-- Form -->
+      <form class="space-y-6">
+        <div class="text-center mb-6">
+          <h2 class="text-3xl font-extrabold text-gray-800">Welcome Back</h2>
+          <p class="mt-2 text-sm text-gray-600">Sign in to your account to continue</p>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+          <div class="mt-1 relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <!-- Email SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#585656" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail-icon lucide-mail"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            </div>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              class="appearance-none block w-full pl-10 pr-3 py-2.5 rounded-lg text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200"
+              placeholder="Enter your email"
+            />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <div class="mt-1 relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <!-- Password SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#585656" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock-keyhole-icon lucide-lock-keyhole"><circle cx="12" cy="16" r="1"/><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg>
+            </div>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+              class="appearance-none block w-full pl-10 pr-3 py-2.5 rounded-lg text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200"
+              placeholder="••••••••"
+            />
+          </div>
+          <p class="text-red-500 text-sm mt-2 ml-2">
+            <!-- Error message here -->
+          </p>
+        </div>
+
+        <!-- Remember and Forgot -->
+        <div class="flex items-center justify-between">
+          <label class="flex items-center text-sm text-gray-700">
+            <input type="checkbox" class="h-4 w-4 text-blue-500 border-gray-300 rounded focus:ring-blue-600">
+            <span class="ml-2">Remember me</span>
+          </label>
+          <a href="/forgot-password" class="text-sm text-blue-500 hover:underline">Forgot password?</a>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full flex justify-center items-center py-2.5 px-4 bg-blue-600 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition duration-200"
+        >
+          Sign in
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="mt-6 relative">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-300"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="bg-white px-2 text-gray-600">Or continue with</span>
+        </div>
+      </div>
+
+      <!-- Google -->
+      <button
+        type="button"
+        class="mt-6 border border-blue-600 w-full flex items-center justify-center gap-2 py-2 rounded-md text-gray-700 hover:text-white hover:bg-blue-600 transition"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 533.5 544.3">
+          <path fill="#4285F4" d="M533.5 278.4c0-17.3-1.4-33.7-4.1-49.6H272v94.1h146.9c-6.3 33.6-25 62-53.3 81.1v67h86.2c50.4-46.5 81.7-115.1 81.7-192.6z"/>
+          <path fill="#34A853" d="M272 544.3c72.7 0 133.8-24.1 178.4-65.1l-86.2-67c-23.9 16-54.5 25.4-92.2 25.4-70.9 0-131-47.9-152.5-112.1H32.3v70.7C76.9 485.1 167.4 544.3 272 544.3z"/>
+          <path fill="#FBBC04" d="M119.5 325.5c-10.8-32.1-10.8-66.7 0-98.8V156H32.3c-33.3 66.6-33.3 143.5 0 210.1l87.2-40.6z"/>
+          <path fill="#EA4335" d="M272 107.3c39.6-.6 77.9 13.9 107.2 40.1l80.1-80.1C405.3 24.3 340.6 0 272 0 167.4 0 76.9 59.2 32.3 156l87.2 70.7C141 155.1 201.1 107.3 272 107.3z"/>
+        </svg>
+        <span class="text-sm font-medium">Google</span>
+      </button>
+
+      <!-- Signup -->
+      <p class="mt-6 text-center text-sm text-gray-600">
+        Don’t have an account?
+        <a href="../vendors/add.php" class="text-blue-500 hover:underline">Sign up</a>
+      </p>
+    </div>
+  </div>
+</section>
