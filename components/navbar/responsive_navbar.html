@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Navbar</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles/theme.css" />
+    <style>
+      .navlink-div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 5px;
+        font-size: small;
+        font-weight: 400;
+      }
+      
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav
+      class="bg-white shadow px-6 py-2 fixed top-0 w-full flex items-center justify-between h-[70px] z-50"
+    >
+      <!-- Logo -->
+      <div>
+        <a
+          href="/"
+          class="text-3xl font-extrabold text-zinc-900"
+          style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+        >
+          <img
+            class="object-contain h-[1.5rem]"
+            src="https://prestoviatravels.com/wp-content/uploads/2025/04/logo.svg"
+            alt="Prestovia Logo"
+          />
+        </a>
+      </div>
+
+      <!-- Desktop Links -->
+      <div
+        id="nav-links-sections"
+        class="relative p-2 items-center gap-2 hidden lg:flex"
+      ></div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        class="lg:hidden text-black p-1 rounded bg-blue-100 "
+        id="mobile-menu-button"
+        aria-label="Toggle mobile menu"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Mobile Menu (hidden by default) -->
+    <div
+      id="mobile-menu"
+      class="lg:hidden fixed top-[70px] left-0 w-full bg-white shadow-md border-t border-gray-200 overflow-y-auto max-h-[calc(100vh-70px)] hidden z-40"
+    >
+      <div id="mobile-nav-links" class="flex flex-col"></div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        const navLinksData = [
+          {
+            label: "Dashboard",
+            href: "/",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-layout-dashboard" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>`,
+          },
+          {
+            label: "Bookings",
+            href: "#",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-calendar" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>`,
+            dropdown: [{ label: "Normal Bookings", href: "/bookings" }],
+          },
+          {
+            label: "Vendors",
+            href: "#",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-contact" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1"><path d="M16 2v2"/><path d="M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><path d="M8 2v2"/><circle cx="12" cy="11" r="3"/><rect x="3" y="4" width="18" height="18" rx="2"/></svg>`,
+            dropdown: [
+              { label: "Add Vendors", href: "/vendors/add" },
+              { label: "All Vendors", href: "/vendors/" },
+            ],
+          },
+          {
+            label: "Rental Routes",
+            href: "#",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-map-pin-house" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1"><path d="M15 22a1 1 0 0 1-1-1v-4a1 1 0 0 1 .445-.832l3-2a1 1 0 0 1 1.11 0l3 2A1 1 0 0 1 22 17v4a1 1 0 0 1-1 1z"/><path d="M18 10a8 8 0 0 0-16 0c0 4.993 5.539 10.193 7.399 11.799a1 1 0 0 0 .601.2"/><path d="M18 22v-3"/><circle cx="10" cy="10" r="3"/></svg>`,
+            dropdown: [
+              { label: "Add  Route", href: "/rentals/add" },
+              { label: "Admin Routes", href: "/rentals" },
+              { label: "Vendor Routes", href: "/rentals/vendor-routes" },
+            ],
+          },
+          {
+            label: "Routes",
+            href: "#",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-map-plus" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1"><path d="m11 19-1.106-.552a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0l4.212 2.106a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619V12"/><path d="M15 5.764V12"/><path d="M18 15v6"/><path d="M21 18h-6"/><path d="M9 3.236v15"/></svg>`,
+            dropdown: [
+              { label: "Add Route", href: "/routes/add" },
+              { label: "Admin Routes", href: "/routes/" },
+              { label: "Vendor Routes", href: "/routes/vendor-routes" },
+            ],
+          },
+
+          {
+            label: "Drivers",
+            href: "#",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-users" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>`,
+            dropdown: [
+              { label: "Add Driver", href: "/drivers/add" },
+              { label: "All Drivers", href: "/drivers/" },
+            ],
+          },
+
+          {
+            label: "Vehicles",
+            href: "#",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-car-taxi-front" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1"><path d="M10 2h4"/><path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8"/><path d="M7 14h.01"/><path d="M17 14h.01"/><rect width="18" height="8" x="3" y="10" rx="2"/><path d="M5 18v2"/><path d="M19 18v2"/></svg>`,
+            dropdown: [
+              { label: "Add Vehicle", href: "/vehicles/add" },
+              { label: "Vehicle List", href: "/vehicles/" },
+            ],
+          },
+          {
+            label: "Models",
+            href: "#",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-layers" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>`,
+            dropdown: [
+              { label: "Add Model", href: "/models/add" },
+              { label: "Models List", href: "/models/" },
+            ],
+          },
+        ];
+
+        // Desktop nav rendering (existing code)
+        navLinksData.forEach((link) => {
+          const hasDropdown = link.dropdown && link.dropdown.length > 0;
+
+          const dropdownHtml = hasDropdown
+            ? `
+            <div
+              class="dropdown hidden absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-white rounded-md
+             shadow-lg z-50 w-40 border-b-2 border-[var(--secondary-color)]
+            "
+            >
+              ${link.dropdown
+                .map(
+                  (d) => `
+                <a href="${d.href}" class="block px-4 py-2 text-sm
+                box-border hover:font-medium hover:border-l-4 hover:border-[var(--primary-color)]">${d.label}</a>
+              `
+                )
+                .join("")}
+            </div>
+          `
+            : "";
+
+          const wrapper = $(`
+          <div class="relative group">
+            <a href="${link.href}" class="space-y-1 navlink-div hover:text-[var(--primary-color)] rounded px-2 py-1">
+              ${link.icon}
+              <span>${link.label}</span>
+            </a>
+            ${dropdownHtml}
+          </div>
+        `);
+
+          $("#nav-links-sections").append(wrapper);
+        });
+
+        // Desktop dropdown hover logic (existing code)
+        let dropdownTimer = null;
+        let $activeGroup = null;
+
+        $("#nav-links-sections").on("mouseenter", ".group", function () {
+          clearTimeout(dropdownTimer);
+
+          if ($activeGroup && !$activeGroup.is(this)) {
+            $activeGroup.find(".dropdown").addClass("hidden");
+          }
+
+          $activeGroup = $(this);
+          $activeGroup.find(".dropdown").removeClass("hidden");
+        });
+
+        $("#nav-links-sections").on("mouseleave", ".group", function () {
+          const $this = $(this);
+          dropdownTimer = setTimeout(() => {
+            $this.find(".dropdown").addClass("hidden");
+          }, 250);
+        });
+
+        // MOBILE MENU LOGIC
+
+        // Render mobile nav links with collapsible dropdowns
+       
+
+         // Mobile menu rendering (same as before)
+  
+         $(document).ready(function () {
+  // Mobile menu rendering
+  function renderMobileNavLinks() {
+    $("#mobile-nav-links").empty();
+
+    navLinksData.forEach((link, i) => { 
+      const hasDropdown = link.dropdown && link.dropdown.length > 0;
+
+      if (!hasDropdown) {
+        const linkEl = $(`
+          <a
+            href="${link.href}"
+            class="flex items-center gap-2 px-4 py-3 border-b border-gray-200 hover:"
+          >
+            <span class="w-6 h-6">${link.icon}</span>
+            <span>${link.label}</span>
+          </a>
+        `);
+        $("#mobile-nav-links").append(linkEl);
+      } else {
+        const dropdownId = `mobile-dropdown-${i}`;
+
+        const container = $(`
+          <div class="border-b border-gray-200">
+            <button
+              type="button"
+              aria-expanded="false"
+              aria-controls="${dropdownId}"
+              class="flex items-center justify-between w-full px-4 py-3 hover: focus:outline-none"
+            >
+              <span class="flex items-center gap-2">
+                <span class="w-6 h-6">${link.icon}</span>
+                <span>${link.label}</span>
+              </span>
+              <svg
+                class="w-5 h-5 text-gray-500 arrow-icon transition-transform duration-300"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+          <div
+  id="${dropdownId}"
+  class="hidden flex flex-col bg-gray-50 space-y-1"
+>
+  ${link.dropdown
+    .map(
+      (d) => `
+    <a
+      href="${d.href}"
+      class="block w-full px-8 py-2 text-left hover:bg-gray-200 border-t border-gray-200"
+    >
+      ${d.label}
+    </a>
+  `
+    )
+    .join("")}
+</div>
+
+          </div>
+        `);
+
+        container.find("button").on("click", function () {
+          const expanded = $(this).attr("aria-expanded") === "true";
+          $(this).attr("aria-expanded", !expanded);
+          const dropdown = $("#" + dropdownId);
+          dropdown.slideToggle(200);
+
+          // Only rotate the arrow icon
+          $(this)
+            .find(".arrow-icon")
+            .toggleClass("rotate-180", !expanded);
+        });
+
+        $("#mobile-nav-links").append(container);
+      }
+    });
+  }
+
+  renderMobileNavLinks();
+
+  // Mobile menu toggle
+  $("#mobile-menu-button").on("click", function () {
+    const menu = $("#mobile-menu");
+
+    if (menu.is(":visible")) {
+      menu.slideUp(200);
+      $(this).html(`
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      `);
+    } else {
+      menu.slideDown(200);
+      $(this).html(`
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      `);
+    }
+  });
+});
+
+
+
+
+
+      });
+    </script>
+  </body>
+</html>
